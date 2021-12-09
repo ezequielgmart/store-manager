@@ -1,0 +1,8 @@
+{
+    "conexion":{
+        "db":"ecomerce",
+        "user":"root",
+        "host":"localhost",
+        "password":""
+    }
+}
