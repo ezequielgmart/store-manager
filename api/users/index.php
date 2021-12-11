@@ -9,13 +9,15 @@
 
     } else if($_SERVER["REQUEST_METHOD"] == "POST") {
         $data =  json_decode(file_get_contents("php://input"));
+        $headers = getallheaders();
+        $token = $headers["authorization"];
         $json = array(
             $data->email,
             $data->name,
-            md5($data->password)
+            password_hash($data->password,PASSWORD_DEFAULT)
         );
                 
-            $_users->post($json);   
+            $_users->post($json,$token);   
     } else{
 
         echo "method not allowed";

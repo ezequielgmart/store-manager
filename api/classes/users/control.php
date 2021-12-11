@@ -17,15 +17,45 @@ require ("../classes/config/responses.php");
 require ("sql.querys.php");
 class Control extends Db{
     
-    public $fields = array(
+    public $userFields = array(
         "userId",
         "email",
         "name",
         "password"
     ); 
 
-    # GET
+    # verify if a token exists or not and also his status
+    public function validateToken($json){
+
+        $_responses = new Responses();
+
+        $verify = $this->verifyToken($json);
+        
+        return $verify;
+        // if ($verify != 0) {
+        //     $_responses->token_ok($verify);
+
+        // }else{
+
+        //     $_responses->token_error();
+        // }
+        
+
+    }
    
+    # Disabled a existing token
+    public function disableToken($json){
+        $_responses = new Responses();
+
+        $result = $this->changeTokenStatus($json);
+        if ($result > 0) {
+            $_responses->tokenStatusChanged();
+        } else {
+           $_responses->token_error();
+        }
+        
+    }
+    # Get all users
     public function getAll($table){
     
         $_query = new Querys();
@@ -45,6 +75,67 @@ class Control extends Db{
 
         return $result;
     }
+
+    public function login($table,$json){
+        $_responses = new Responses();
+        
+        $_query = new Querys();
+
+        $query = $_query->login($table,$json[0]);
+      
+        $result = parent::getData($query);
+
+        if (empty($result)) {
+            $_responses->login_error();
+           
+        } else {
+          
+            $array = array();
+            foreach ($result as $key => $value) {
+                $array["email"] = $value["email"];
+                $array["password"] = $value["password"];
+                $array["userId"] = $value["userId"];
+            }
+    
+            if(password_verify($json[1],$array["password"])){
+                
+                $verifyToken = $this->newToken($array["userId"]);
+            
+              
+                
+                if ($verifyToken !=0) {
+                    $_responses->login_ok($verifyToken);
+                } else{
+                    $_responses->login_error();
+                } 
+                
+            }else{
+                $_responses->login_error();
+            }
+          
+        }
+        
+        
+       
+
+        
+        
+    }
+    public function newToken($userId){
+        $result = parent::newToken($userId);
+        return $result;
+    }
+
+    public function verifyToken($token){
+        $result = parent::getUserIdByToken($token);
+        return $result;
+    }
+
+    private function changeTokenStatus($token){
+        $result = parent::disableToken($token);
+        return $result;
+    }
+
 }
 
 

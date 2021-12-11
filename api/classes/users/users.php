@@ -1,5 +1,6 @@
 <?php
     require ("control.php");
+    // require ("auth.php");
     class Users{
         private $table = "users";
         private $subTable = "";
@@ -17,15 +18,55 @@
             $_response->code_200();
         }
 
-        public function post($json){
-
-            $_response = new Responses();
+        public function post($json,$token){
             $_control = new Control();
-            array_push($json,$this->newId());
-
-            $result = $_control->newUSer($this->table,$json);
+            $_responses = new Responses();
             
-            $this->json($result);
+            $tokenVerify = $_control->validateToken($token);
+
+            if ($tokenVerify != 0) {
+                array_push($json,$this->newId());
+    
+                $result = $_control->newUSer($this->table,$json);
+                if ($result !=1) {
+                    $_responses->user_created_error();
+                } else {
+                    
+                    $_responses->user_created();
+    
+                }
+           
+            } else {
+                $_responses->token_error();
+            }
+            
+
+         
+            
+        }
+
+        public function login($json){
+            $_responses = new Responses();
+            $_control = new Control();
+
+            $result = $_control->login($this->table,$json);
+          
+           
+            
+        }
+
+        public function validateToken($json){
+            $_responses = new Responses();
+            $_control = new Control();
+
+            $result = $_control->validateToken($json);
+
+        }
+        public function changeTokenStatus($json){
+            $_responses = new Responses();
+            $_control = new Control();
+
+            $result = $_control->disableToken($json);
         }
 
         private function json($body){

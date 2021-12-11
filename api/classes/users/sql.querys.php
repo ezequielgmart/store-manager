@@ -15,6 +15,31 @@
 
             return $query;
         }
+        
+        function selectUserByEmail($table,$email){
+            $query = "SELECT * FROM "
+            . $table ."
+            WHERE ".$this->fields[0]."='$email'";
+
+            return $query;
+        }
+
+        function selectPassword($table,$password){
+            $query = "SELECT password FROM "
+            . $table ."
+            WHERE ".$this->fields[2]."='$password'";
+
+            return $query;
+
+        }
+
+        function login($table,$json){
+            $query = "SELECT * FROM $table WHERE
+            email='".$json."'";
+            
+            return $query;
+
+        }
         function insert($table,$values){
             $query = "INSERT INTO " . $table ."("
             . $this->fields[0].","
