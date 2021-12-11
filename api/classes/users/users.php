@@ -6,16 +6,42 @@
         private $subTable = "";
 
         # GET
-        public function get(){
+        public function get($token){
 
             $_response = new Responses();
             $_control = new Control();
-            $body = array();
-            $body = $_control->getAll($this->table);
             
+            $tokenVerify = $_control->validateToken($token);
 
-            $this->json($body);
-            $_response->code_200();
+            if ($tokenVerify != 0) {
+                    
+                    $body = array();
+                    $body = $_control->getAll($this->table);
+                    $_response->get_users_ok($body);
+           
+            } else {
+                $_responses->token_error();
+            }
+            
+        }
+
+        public function getById($token,$id){
+
+            $_response = new Responses();
+            $_control = new Control();
+            
+            $tokenVerify = $_control->validateToken($token);
+
+            if ($tokenVerify != 0) {
+                    
+                    $body = array();
+                    $body = $_control->getById($this->table,$id);
+                    $_response->get_users_ok($body);
+           
+            } else {
+                $_responses->token_error();
+            }
+            
         }
 
         public function post($json,$token){

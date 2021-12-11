@@ -15,7 +15,14 @@
 
             return $query;
         }
-        
+        function selectById($table,$id){
+            $query = "SELECT * FROM "
+            . $table ."
+            WHERE userId='$id'";
+
+            return $query;
+
+        }
         function selectUserByEmail($table,$email){
             $query = "SELECT * FROM "
             . $table ."

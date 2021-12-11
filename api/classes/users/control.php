@@ -66,6 +66,16 @@ class Control extends Db{
 
     }
 
+    # Get by Id
+    public function getById($table,$json){     
+        $_query = new Querys();
+        $query = $_query->selectById($table,$json);
+        $result = parent::getData($query);
+
+        return $result;
+
+
+    }
     # POST 
 
     public function newUser($table,$json){

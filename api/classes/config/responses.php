@@ -75,6 +75,10 @@
         */
 
             # USERS 
+            public function get_users_ok($json){
+                $this->code_200($json);
+
+            }
             public function user_created(){
                 $this->code_201("New user added.");
 
