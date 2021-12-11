@@ -32,13 +32,6 @@ class Control extends Db{
         $verify = $this->verifyToken($json);
         
         return $verify;
-        // if ($verify != 0) {
-        //     $_responses->token_ok($verify);
-
-        // }else{
-
-        //     $_responses->token_error();
-        // }
         
 
     }
@@ -76,8 +69,8 @@ class Control extends Db{
 
 
     }
-    # POST 
 
+    # POST 
     public function newUser($table,$json){
         $_query = new Querys();
         $query = $_query->insert($table,$json);
@@ -86,6 +79,7 @@ class Control extends Db{
         return $result;
     }
 
+    # Login users with auth
     public function login($table,$json){
         $_responses = new Responses();
         
@@ -131,16 +125,29 @@ class Control extends Db{
         
         
     }
+    public function deleteUser($table,$json){
+        $_query = new Querys();
+        $query = $_query->deleteUser($table,$json);
+        $result = parent::nonQuery($query);
+
+        return $result;
+    }
+
+
+    # TOKEN METHODS
+    // New token with each successful login
     public function newToken($userId){
         $result = parent::newToken($userId);
         return $result;
     }
 
+    # Check a existing token
     public function verifyToken($token){
         $result = parent::getUserIdByToken($token);
         return $result;
     }
 
+    # Disabled a Token
     private function changeTokenStatus($token){
         $result = parent::disableToken($token);
         return $result;

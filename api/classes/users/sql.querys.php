@@ -61,6 +61,13 @@
     
             return $query;
         }
+
+        function deleteUser($table,$json){
+            $query = "DELETE FROM $table WHERE 
+            userId='$json'";
+
+            return $query;
+        }
     }
 
 ?>

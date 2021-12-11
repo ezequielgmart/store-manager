@@ -2,7 +2,7 @@
 
     class Responses{
 
-        public function code_200($json="", $code=200){
+        private function code_200($json="", $code=200){
 
             http_response_code($code);
 
@@ -16,7 +16,7 @@
 
 
         }
-        public function code_201($json="", $code=201){
+        private function code_201($json="", $code=201){
 
             http_response_code($code);
 
@@ -28,9 +28,38 @@
             }
             
 
+        }
+
+        private function code_204($json="", $code=204){
+
+            http_response_code($code);
+
+            if ($json != "") {
+                $this->define_response_content($code,$json);
+            } else {
+                $this->define_response_content($code,"No content");
+
+            }
+            
 
         }
-        public function code_401($json="", $code=401){
+
+        private function code_400($json="", $code=400){
+
+            http_response_code($code);
+
+            if ($json != "") {
+                $this->define_response_content($code,$json);
+            } else {
+                $this->define_response_content($code,"Bad request, content missing.");
+
+            }
+            
+
+
+        }
+        
+        private function code_401($json="", $code=401){
 
             http_response_code($code);
 
@@ -44,6 +73,7 @@
 
 
         }
+
         public function code_500($json="", $code=500){
 
             http_response_code($code);
@@ -69,11 +99,12 @@
 
         }
 
-        /*
-            IN THIS WAY WE GONNA BE ABLE TO GET MORE INFORMATION REGARDING THE HTTP ERRORS AND WHAT EXACTCLY MEANS!
-        
-        */
+            /*
+                IN THIS WAY WE GONNA BE ABLE TO GET MORE INFORMATION REGARDING THE HTTP ERRORS AND WHAT EXACTCLY MEANS!
+            
+            */
 
+            
             # USERS 
             public function get_users_ok($json){
                 $this->code_200($json);
@@ -88,7 +119,21 @@
 
             }
 
+            public function user_no_id(){
+                $this->code_400("User id not found");
+            }
 
+            
+            public function delete_error(){
+                $this->code_500("Something went wrong deleting an user. Please try again");
+
+            }
+            
+            public function delete_ok(){
+                $this->code_204("User delete.");
+
+            }
+            
             /* AUTH */
             public function login_error(){
                 $this->code_401("Email or Password incorrect. Please try again.");

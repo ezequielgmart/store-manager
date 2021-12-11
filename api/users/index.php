@@ -17,7 +17,7 @@
             }
             
         } else {
-            $_users->get();
+            $_users->get($token);
 
         }
         
@@ -33,6 +33,29 @@
         );
                 
             $_users->post($json,$token);   
+    } else if($_SERVER["REQUEST_METHOD"] == "DELETE") {
+        $data =  json_decode(file_get_contents("php://input"));
+        $headers = getallheaders();
+        $token = $headers["authorization"];
+        if ($token !="") {
+            if (isset($_GET["id"])) {
+                $id = $_GET["id"];
+                if (empty($id)) {
+                    $_users->error_no_id();
+                } else {
+                    $_users->delete($id,$token);
+                }
+                
+            } else {
+                $_users->error_no_id();
+    
+            }
+        } else {
+            $_users->error_no_token();
+
+        }
+        
+        
     } else{
 
         echo "method not allowed";

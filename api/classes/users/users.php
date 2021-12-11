@@ -5,7 +5,7 @@
         private $table = "users";
         private $subTable = "";
 
-        # GET
+        # GET ALL USERS
         public function get($token){
 
             $_response = new Responses();
@@ -25,6 +25,7 @@
             
         }
 
+        # GET A USER BY ID
         public function getById($token,$id){
 
             $_response = new Responses();
@@ -44,6 +45,7 @@
             
         }
 
+        # ADD A NEW USER
         public function post($json,$token){
             $_control = new Control();
             $_responses = new Responses();
@@ -70,7 +72,35 @@
          
             
         }
+        # Delete user
+        public function delete($json,$token){
 
+            $_control = new Control();
+            $_responses = new Responses();
+            
+            $tokenVerify = $_control->validateToken($token);
+
+            if ($tokenVerify != 0) {
+    
+              $result = $_control->deleteUser($this->table,$json);
+
+              if ($result > 0) {
+                  # code...
+                    $_responses->delete_ok();
+              } else {
+
+                  $_responses->delete_error();
+              }
+              
+           
+            } else {
+                $_responses->token_error();
+            }
+            
+        }
+
+
+        # INTERFACE WITH THE CONTROL->LOGIN
         public function login($json){
             $_responses = new Responses();
             $_control = new Control();
@@ -81,6 +111,7 @@
             
         }
 
+        # VALIDATE A TOKEN
         public function validateToken($json){
             $_responses = new Responses();
             $_control = new Control();
@@ -88,6 +119,7 @@
             $result = $_control->validateToken($json);
 
         }
+        // DISABLED A TOKEN
         public function changeTokenStatus($json){
             $_responses = new Responses();
             $_control = new Control();
@@ -95,6 +127,7 @@
             $result = $_control->disableToken($json);
         }
 
+        # ECHO JSON ENCODE
         private function json($body){
             echo json_encode($body);
         }
@@ -107,6 +140,19 @@
             $ran = $firstNumber+$secondNumber+$thirdNumber;
 
             return md5($ran . " " . date("F j, Y, g:i a"));
+        }
+
+        public function error_no_token(){
+            $_responses = new Responses();
+
+            $_responses->token_error();
+
+        }
+
+        public function error_no_id(){
+            $_responses = new Responses();
+
+            $_responses->user_no_id();
         }
     }
   
