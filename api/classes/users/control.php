@@ -15,7 +15,7 @@
 require ("../classes/config/db.php");
 require ("../classes/config/responses.php");
 require ("sql.querys.php");
-class Control extends Db{
+class UsersControl extends Db{
     
     public $userFields = array(
         "userId",

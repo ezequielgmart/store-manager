@@ -146,6 +146,18 @@
 
             }
 
+            // PRODUCTS
+            
+            public function product_created(){
+                $this->code_201("New product added.");
+
+            }
+            public function product_created_error(){
+                $this->code_500("Something went wrong adding the new product. Please try again");
+
+            }
+
+
             /* AUTH */
             public function login_error(){
                 $this->code_401("Email or Password incorrect. Please try again.");

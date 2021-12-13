@@ -9,7 +9,7 @@
         public function get($token){
 
             $_response = new Responses();
-            $_control = new Control();
+            $_control = new UsersControl();
             
             $tokenVerify = $_control->validateToken($token);
 
@@ -29,7 +29,7 @@
         public function getById($token,$id){
 
             $_response = new Responses();
-            $_control = new Control();
+            $_control = new UsersControl();
             
             $tokenVerify = $_control->validateToken($token);
 
@@ -48,7 +48,7 @@
         # ADD A NEW USER
         public function post($json,$token){
             $_control = new Control();
-            $_responses = new Responses();
+            $_responses = new UsersControl();
             
             $tokenVerify = $_control->validateToken($token);
 
@@ -76,7 +76,7 @@
         public function delete($json,$token){
 
             $_control = new Control();
-            $_responses = new Responses();
+            $_responses = new UsersControl();
             
             $tokenVerify = $_control->validateToken($token);
 
@@ -103,7 +103,7 @@
         # INTERFACE WITH THE CONTROL->LOGIN
         public function login($json){
             $_responses = new Responses();
-            $_control = new Control();
+            $_control = new UsersControl();
 
             $result = $_control->login($this->table,$json);
           
@@ -114,7 +114,7 @@
         # VALIDATE A TOKEN
         public function validateToken($json){
             $_responses = new Responses();
-            $_control = new Control();
+            $_control = new UsersControl();
 
             $result = $_control->validateToken($json);
 
@@ -122,7 +122,7 @@
         // DISABLED A TOKEN
         public function changeTokenStatus($json){
             $_responses = new Responses();
-            $_control = new Control();
+            $_control = new UsersControl();
 
             $result = $_control->disableToken($json);
         }

@@ -1,0 +1,39 @@
+<?php
+
+    class ProductsQuerys{
+        public $table;
+        public $fields;
+
+        public function __construct() {
+            $this->table = "products";
+            $this->fields = array(
+                "productId",
+                "productName",
+                "brand",
+                "price",
+                "description",
+                "categoryId"
+            );
+        }
+        public function add($values){
+           
+            $query = "INSERT INTO " . $this->table ."("
+            . $this->fields[0].","
+            . $this->fields[1].","
+            . $this->fields[2].","
+            . $this->fields[3].","
+            . $this->fields[4].","
+            . $this->fields[5].") 
+            VALUES (
+            '".$values[0]."',
+            '".$values[1]."',
+            '".$values[2]."',
+            '".$values[3]."',
+            '".$values[4]."',
+            '".$values[5]."')";
+    
+            return $query;
+        }
+    }
+
+?>
