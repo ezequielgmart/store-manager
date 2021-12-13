@@ -29,7 +29,19 @@
             
 
         }
+        private function code_202($json="", $code=202){
 
+            http_response_code($code);
+
+            if ($json != "") {
+                $this->define_response_content($code,$json);
+            } else {
+                $this->define_response_content($code,"Acepted");
+
+            }
+            
+
+        }
         private function code_204($json="", $code=204){
 
             http_response_code($code);
@@ -130,10 +142,10 @@
             }
             
             public function delete_ok(){
-                $this->code_204("User delete.");
+                $this->code_202("User delete.");
 
             }
-            
+
             /* AUTH */
             public function login_error(){
                 $this->code_401("Email or Password incorrect. Please try again.");
