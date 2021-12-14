@@ -1,10 +1,7 @@
 <?php
 
     class ProductsQuerys{
-        public $table;
-        public $subTable;
-        public $fields;
-
+    
         public function __construct() {
             $this->table = "products";
             $this->first = "brands";
@@ -28,7 +25,13 @@
                 . $this->second .".categoryId";
 
             } else {
-                # code...
+                return $query = "SELECT * FROM "
+                .$this->table.","
+                .$this->first.","
+                .$this->second." WHERE ". $this->table .".brandId =".$this->first.".brandId AND " 
+                . $this->table .".categoryId ="
+                . $this->second .".categoryId 
+                AND " . $this->table . ".productId ='$id'";
             }
             
         }

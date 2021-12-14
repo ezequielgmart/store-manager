@@ -121,6 +121,10 @@
                 $this->code_200($json);
             }
             
+            public function no_content(){
+                $this->code_200("No results");
+            }
+            
             # USERS 
             public function get_users_ok($json){
                 $this->code_200($json);

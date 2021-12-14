@@ -5,7 +5,7 @@
 
     
     class Products{
-        public function get($token){
+        public function get($token,$json=""){
 
                 # The objects we gonna working with 
                 $_userControl = new UsersControl();
@@ -19,10 +19,30 @@
 
                     # if the token is good
                     
-        
                     # The 1 as paramenter means the first type of get which is getAll no criteria
-                    $result = $_productsControl->get(1);
-                    $_responses->get_ok($result);
+                    if ($json == "") {
+                        # if the request doesn't content any id the type of get is getAll
+                        $result = $_productsControl->get(1);
+                        if (!empty($result)) {
+                            $_responses->get_ok($result);
+                            # code...
+                        } else {
+                            $_responses->no_content();
+
+                        }
+                        
+                    } else {
+                        $result = $_productsControl->get(2,$json);
+                        if (!empty($result)) {
+                            $_responses->get_ok($result);
+                            # code...
+                        } else {
+                            $_responses->no_content();
+
+                        }
+                    }
+                    
+            
 
                 } else {
                     # else token aint good
@@ -32,26 +52,6 @@
             
         }
 
-        public function getById($token,$json){
-            # The objects we gonna working with 
-            $_userControl = new UsersControl();
-            $_productsControl = new ProductsControl();
-            $_responses = new Responses();
-
-            # validate the token we are working with 
-            $tokenVerify = $_userControl->validateToken($token);
-            if ($tokenVerify != 0) {
-
-
-                # if the token is good
-            
-       
-            } else {
-                # else token aint good
-                $_responses->token_error();
-            }
-
-        }
         public function post($token,$json){
             # The objects we gonna working with 
             $_userControl = new UsersControl();

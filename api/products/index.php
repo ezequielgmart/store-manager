@@ -10,12 +10,15 @@
 
         if (isset($_GET["id"])) {
             $id = $_GET["id"];
-            if ($id != "") {
+            if ($id == "") {
                 # Have id
-                $_users->getById($token,$id);
-            } else {
                 $_products->get($token);
+            } else {
                 # Get all
+                
+                $id = $_GET["id"];
+                $_products->get($token,$id);
+               
             }
             
         } else {

@@ -23,17 +23,28 @@ class ProductsControl extends Db{
          */
 
          if ($typeOfGet == 1) {
+
             $_query = $this->newQuery();
             $query = $_query->select();
             $result = parent::getData($query);
 
             return $result;
-         } else {
-             echo "Nothing so far";
-             # code...
+
+         } else if ($typeOfGet == 2){
+
+        
+            $_query = $this->newQuery();
+            $query = $_query->select($json);
+            $result = parent::getData($query);
+
+            return $result;
+
+         } else if($typeOfGet > 2 || $typeOfGet < 1){
+             return 0;
          }
          
     }
+
 
     private function newQuery(){
         return $_query = new ProductsQuerys();
