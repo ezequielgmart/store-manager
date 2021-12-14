@@ -124,7 +124,15 @@
             public function no_content(){
                 $this->code_200("0");
             }
+            public function non_delete(){
+                $this->code_500("0");
+
+            }
             
+            public function delete(){
+                $this->code_202("1");
+
+            }
             # USERS 
             public function get_users_ok($json){
                 $this->code_200($json);

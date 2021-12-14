@@ -86,6 +86,39 @@
 
         } 
 
+        public function delete($token,$json){
+            # The objects we gonna working with 
+            $_userControl = new UsersControl();
+            $_productsControl = new ProductsControl();
+            $_responses = new Responses();
+
+            # validate the token we are working with 
+            $tokenVerify = $_userControl->validateToken($token);
+
+            if ($tokenVerify != 0) {
+
+
+                # if the token is good
+
+
+                $result = $_productsControl->delete($json);
+
+                if ($result > 0) {
+                    $_responses->delete();
+                } else {
+                    
+                  $_responses->non_delete();
+    
+                }
+
+       
+            } else {
+                # else token aint good
+                $_responses->token_error();
+            }
+
+        } 
+
         private function generateProductId($json){
             
             $newId = $json[0] .

@@ -54,6 +54,12 @@
     
             return $query;
         }
+        
+        function delete($json){
+            return $query = "DELETE FROM $this->table WHERE 
+            productId='$json'";
+
+        }
     }
 
 ?>

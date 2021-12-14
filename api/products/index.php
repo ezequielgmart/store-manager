@@ -22,7 +22,6 @@
             }
             
         } else {
-            // $_users->get($token);
             # Get all
                 $_products->get($token);
 
@@ -45,26 +44,31 @@
         $_products->post($token,$json);
                 
     } else if($_SERVER["REQUEST_METHOD"] == "DELETE") {
-        // $data =  json_decode(file_get_contents("php://input"));
-        // $headers = getallheaders();
-        // $token = $headers["authorization"];
-        // if ($token !="") {
-        //     if (isset($_GET["id"])) {
-        //         $id = $_GET["id"];
-        //         if (empty($id)) {
-        //             $_users->error_no_id();
-        //         } else {
-        //             $_users->delete($id,$token);
-        //         }
-                
-        //     } else {
-        //         $_users->error_no_id();
-    
-        //     }
-        // } else {
-        //     $_users->error_no_token();
+        $data =  json_decode(file_get_contents("php://input"));
+        $headers = getallheaders();
+        $token = $headers["authorization"];
 
-        // }
+        if (isset($_GET["id"])) {
+            $id = $_GET["id"];
+            if ($id == "") {
+                # Have id
+                http_response_code(402);
+                echo json_encode("Id not found");
+            } else {
+                # Get all
+                
+                $id = $_GET["id"];
+                $_products->delete($token,$id);
+               
+            }
+            
+        } else {
+            http_response_code(402);
+            echo json_encode("Id not found");
+
+        }
+
+        
         
         
     } else{

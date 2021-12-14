@@ -45,6 +45,14 @@ class ProductsControl extends Db{
          
     }
 
+    public function delete($json){
+        
+        $_query = $this->newQuery();
+        $query = $_query->delete($json);
+        $result = parent::nonQuery($query);
+
+        return $result;
+    }
 
     private function newQuery(){
         return $_query = new ProductsQuerys();
