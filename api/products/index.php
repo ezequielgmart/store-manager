@@ -5,21 +5,25 @@
     $_products = new Products();
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        // $headers = getallheaders();
-        // $token = $headers["authorization"];
+        $headers = getallheaders();
+        $token = $headers["authorization"];
 
-        // if (isset($_GET["id"])) {
-        //     $id = $_GET["id"];
-        //     if ($id != "") {
-        //         $_users->getById($token,$id);
-        //     } else {
-        //         $_users->get($token);
-        //     }
+        if (isset($_GET["id"])) {
+            $id = $_GET["id"];
+            if ($id != "") {
+                # Have id
+                $_users->getById($token,$id);
+            } else {
+                $_products->get($token);
+                # Get all
+            }
             
-        // } else {
-        //     $_users->get($token);
+        } else {
+            // $_users->get($token);
+            # Get all
+                $_products->get($token);
 
-        // }
+        }
         
 
     } else if($_SERVER["REQUEST_METHOD"] == "POST") {

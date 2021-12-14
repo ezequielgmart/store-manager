@@ -116,6 +116,10 @@
             
             */
 
+            // GENERIC
+            public function get_ok($json){
+                $this->code_200($json);
+            }
             
             # USERS 
             public function get_users_ok($json){

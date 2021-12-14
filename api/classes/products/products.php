@@ -5,16 +5,66 @@
 
     
     class Products{
-        public function post($token,$json){
+        public function get($token){
+
+                # The objects we gonna working with 
+                $_userControl = new UsersControl();
+                $_productsControl = new ProductsControl();
+                $_responses = new Responses();
+
+                # validate the token we are working with 
+                $tokenVerify = $_userControl->validateToken($token);
+                if ($tokenVerify != 0) {
+
+
+                    # if the token is good
+                    
+        
+                    # The 1 as paramenter means the first type of get which is getAll no criteria
+                    $result = $_productsControl->get(1);
+                    $_responses->get_ok($result);
+
+                } else {
+                    # else token aint good
+                    $_responses->token_error();
+                }
+            
+            
+        }
+
+        public function getById($token,$json){
+            # The objects we gonna working with 
             $_userControl = new UsersControl();
             $_productsControl = new ProductsControl();
             $_responses = new Responses();
 
+            # validate the token we are working with 
+            $tokenVerify = $_userControl->validateToken($token);
+            if ($tokenVerify != 0) {
+
+
+                # if the token is good
+            
+       
+            } else {
+                # else token aint good
+                $_responses->token_error();
+            }
+
+        }
+        public function post($token,$json){
+            # The objects we gonna working with 
+            $_userControl = new UsersControl();
+            $_productsControl = new ProductsControl();
+            $_responses = new Responses();
+
+            # validate the token we are working with 
             $tokenVerify = $_userControl->validateToken($token);
 
             if ($tokenVerify != 0) {
 
 
+                # if the token is good
                 $newId = $this->generateProductId($json);
 
                 array_unshift($json,$newId); 
@@ -30,12 +80,13 @@
                 }
        
             } else {
+                # else token aint good
                 $_responses->token_error();
             }
 
         } 
 
-        public function generateProductId($json){
+        private function generateProductId($json){
             
             $newId = $json[0] .
             $json[1] .
