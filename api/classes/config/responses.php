@@ -122,7 +122,7 @@
             }
             
             public function no_content(){
-                $this->code_200("No results");
+                $this->code_200("0");
             }
             
             # USERS 
