@@ -10,7 +10,7 @@ class ProductsControl extends Db{
     # post method handler
     public function add($json){
         $_query = new ProductsQuerys();
-      
+        
         $query = $_query->add($json);
         return $result = parent::nonQuery($query);
     }

@@ -133,6 +133,11 @@
                 $this->code_202("1");
 
             }
+            public function server_error(){
+                $this->code_500("The server can't process this request.");
+
+            }
+
             # USERS 
             public function get_users_ok($json){
                 $this->code_200($json);

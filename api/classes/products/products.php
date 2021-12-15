@@ -69,10 +69,11 @@
 
                 array_unshift($json,$newId); 
 
+
                 $result = $_productsControl->add($json);
 
                 if ($result !=1) {
-                    $_responses->product_created_error();
+                    $_responses->server_error();
                 } else {
                     
                     $_responses->product_created();

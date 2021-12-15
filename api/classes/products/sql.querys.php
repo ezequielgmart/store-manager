@@ -9,7 +9,7 @@
             $this->fields = array(
                 "productId",
                 "productName",
-                "brand",
+                "brandId",
                 "price",
                 "description",
                 "categoryId"
