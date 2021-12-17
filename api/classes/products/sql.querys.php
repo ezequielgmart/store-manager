@@ -6,6 +6,7 @@
             $this->table = "products";
             $this->first = "brands";
             $this->second = "productcategories";
+            $this->third = "inventory";
             $this->fields = array(
                 "productId",
                 "productName",
@@ -17,21 +18,51 @@
         }
         public function select($id =""){
             if ($id =="") {
-                return $query = "SELECT * FROM "
-                .$this->table.","
-                .$this->first.","
-                .$this->second." WHERE ". $this->table .".brandId =".$this->first.".brandId AND " 
-                . $this->table .".categoryId ="
-                . $this->second .".categoryId";
+                
+
+                return  $query = "SELECT products.productId,
+                products.productName,
+                products.price,
+                products.brandId,
+                brands.brandName,
+                products.description,
+                products.categoryId,
+                productcategories.categorieName,
+                SUM(inventory.entryAmount),
+                SUM(inventory.outAmount),
+                SUM(inventory.entryValue),
+                SUM(inventory.outValue) 
+                FROM 
+                products,
+                brands,
+                productcategories,
+                inventory 
+                WHERE products.brandId = brands.brandId AND
+                products.categoryId = productcategories.categoryId";
 
             } else {
-                return $query = "SELECT * FROM "
-                .$this->table.","
-                .$this->first.","
-                .$this->second." WHERE ". $this->table .".brandId =".$this->first.".brandId AND " 
-                . $this->table .".categoryId ="
-                . $this->second .".categoryId 
-                AND " . $this->table . ".productId ='$id'";
+                
+                return  $query = "SELECT products.productId,
+                products.productName,
+                products.price,
+                products.brandId,
+                brands.brandName,
+                products.description,
+                products.categoryId,
+                productcategories.categorieName,
+                SUM(inventory.entryAmount),
+                SUM(inventory.outAmount),
+                SUM(inventory.entryValue),
+                SUM(inventory.outValue) 
+                FROM 
+                products,
+                brands,
+                productcategories,
+                inventory 
+                WHERE products.brandId = brands.brandId AND
+                products.categoryId = productcategories.categoryId  AND
+                products.productId = inventory.productId
+                AND products.productId ='$id'";
             }
             
         }
