@@ -60,6 +60,39 @@
             productId='$json'";
 
         }
+
+        
+        function editName($id,$json){
+            return $this->update($id,"productName",$json);
+
+
+        }  
+        function editBrand($id,$json){
+            return $this->update($id,"brandId",$json);
+
+
+        }  
+        function editPrice($id,$json){
+            return $this->update($id,"price",$json);
+
+
+        }  
+        function editDescription($id,$json){
+            return $this->update($id,"description",$json);
+
+
+        }  
+        function editCategory($id,$json){
+            return $this->update($id,"categoryId",$json);
+            
+
+        }
+
+        private function update($id,$field,$json){
+            return $query = "UPDATE ". $this->table ." SET $field='$json' WHERE
+            productId='$id'"; 
+        }
     }
+
 
 ?>

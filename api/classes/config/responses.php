@@ -129,6 +129,10 @@
 
             }
             
+            public function update_ok(){
+                $this->code_202("1");
+
+            }
             public function delete(){
                 $this->code_202("1");
 

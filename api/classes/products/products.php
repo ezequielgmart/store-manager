@@ -120,6 +120,34 @@
 
         } 
 
+        public function put($token,$id,$json,$edit){
+            # The objects we gonna working with 
+            $_userControl = new UsersControl();
+            $_productsControl = new ProductsControl();
+            $_responses = new Responses();
+
+            # validate the token we are working with 
+            $tokenVerify = $_userControl->validateToken($token);
+
+            if ($tokenVerify != 0) {
+
+
+                $result = $_productsControl->edit($id,$json,$edit);
+
+                if ($result !=1) {
+                    $_responses->server_error();
+                } else {
+                    
+                    $_responses->update_ok();
+
+                }
+
+            } else {
+                # else token aint good
+                $_responses->token_error();
+            }
+            
+        }
         private function generateProductId($json){
             
             $newId = $json[0] .

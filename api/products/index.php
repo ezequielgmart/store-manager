@@ -71,6 +71,74 @@
         
         
         
+    }else if($_SERVER["REQUEST_METHOD"] == "PUT") {
+        $data =  json_decode(file_get_contents("php://input"),true);
+        $headers = getallheaders();
+        $token = $headers["authorization"];
+
+        if (isset($_GET["id"])) {
+            $id = $_GET["id"];
+            if ($id == "") {
+                # Have id
+                http_response_code(402);
+                echo json_encode("Id not found");
+            } else {
+                
+               $id = $_GET["id"];
+            
+               if(isset($_GET["name"])){
+
+                    $json = $_GET["name"];
+                    $edit = 1;
+                    
+                    $_products->put($token,$id,$json,$edit);
+
+                }else if(isset($_GET["brand"])){
+                   
+                    $json = $_GET["brand"];
+                    $edit = 2;
+                    $_products->put($token,$id,$json,$edit);
+
+
+                }else if(isset($_GET["price"])){
+                    
+                    $json = $_GET["price"];
+                    $edit = 3;
+                    $_products->put($token,$id,$json,$edit);
+
+
+                }else if(isset($_GET["description"])){
+                   
+                    $json = $_GET["description"];
+                    $edit = 4;
+                    $_products->put($token,$id,$json,$edit);
+
+
+                }else if(isset($_GET["category"])){
+
+                    $json = $_GET["category"];
+                    $edit = 5;
+                    $_products->put($token,$id,$json,$edit);
+
+                }else{
+
+                    http_response_code(402);
+                    echo json_encode("Data not found. Try again");
+
+               }
+               
+               
+            }
+            
+        } else {
+            http_response_code(402);
+            echo json_encode("Id not found");
+
+        }
+
+        
+        
+        
     } else{
 
         echo "method not allowed";
