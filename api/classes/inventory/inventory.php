@@ -5,103 +5,96 @@
 
     
     class Inventory{
-        // public function get($token,$json=""){
+        public $control;
+        public $responses;
+        public $users;
 
-        //         # The objects we gonna working with 
-        //         $_userControl = new UsersControl();
-        //         $_productsControl = new ProductsControl();
-        //         $_responses = new Responses();
+        public function __construct() {
+            $this->control = new InventoryControl();
+            $this->responses = new Responses();
+            $this->users = new UsersControl();
+        }
+        public function get($token,$criteria ="",$json=""){
 
-        //         # validate the token we are working with 
-        //         $tokenVerify = $_userControl->validateToken($token);
-        //         if ($tokenVerify != 0) {
+                # validate the token we are working with 
+                $tokenVerify = $this->users->validateToken($token);
+                if ($tokenVerify != 0) {
 
+                    # if the token is good
+                    if ($json == "" || $criteria == "") {
+                         
+                        $result = $this->control->get();
+                        if (!empty($result)) {
+                            $this->responses->get_ok($result);
+                        } else {
+                            $this->responses->no_content();
 
-        //             # if the token is good
-                    
-        //             # The 1 as paramenter means the first type of get which is getAll no criteria
-        //             if ($json == "") {
-        //                 # if the request doesn't content any id the type of get is getAll
-        //                 $result = $_productsControl->get(1);
-        //                 if (!empty($result)) {
-        //                     $_responses->get_ok($result);
-        //                     # code...
-        //                 } else {
-        //                     $_responses->no_content();
-
-        //                 }
+                        }
                         
-        //             } else {
-        //                 $result = $_productsControl->get(2,$json);
-        //                 if (!empty($result)) {
-        //                     $_responses->get_ok($result);
-        //                     # code...
-        //                 } else {
-        //                     $_responses->no_content();
+                    } else {
+                        
+                        $result = $this->control->get($criteria,$json);
+                        if (!empty($result)) {
+                            $this->responses->get_ok($result);
+                        } else {
+                            $this->responses->no_content();
 
-        //                 }
-        //             }
+                        }
+                    }
                     
             
 
-        //         } else {
-        //             # else token aint good
-        //             $_responses->token_error();
-        //         }
+                } else {
+                    # else token aint good
+                    $_responses->token_error();
+                }
             
             
-        // }
+        }
 
         public function post($token,$json,$type){
-            # The objects we gonna working with 
-            $_userControl = new UsersControl();
-            $_inventoryControl = new InventoryControl();
-            $_responses = new Responses();
-
+          
             # validate the token we are working with 
-            $tokenVerify = $_userControl->validateToken($token);
+            $tokenVerify = $this->users->validateToken($token);
 
             if ($tokenVerify != 0) {
 
                 if ($type == 1 ) {
                     # if the token is good
-                    $result = $_inventoryControl->buy($json);
+                    $result = $this->control->buy($json);
 
                         if ($result !=1) {
-                            $_responses->server_error();
+                            $this->responses->server_error();
                         } else {
                             
-                            $_responses->created();
+                            $this->responses->created();
             
                         }
                 } else if ($type == 2){
 
-                    $result = $_inventoryControl->sell($json);
+                    $result = $this->control->sell($json);
                         if ($result !=1) {
-                            $_responses->server_error();
+                            $this->responses->server_error();
                         } else {
                             
-                            $_responses->created();
+                            $this->responses->created();
             
                         }
                 } else if ($type > 2 || $type < 1){
 
-                    $_responses->missing();
+                    $this->responses->missing();
 
                 }
                 
             } else {
                 # else token aint good
-                $_responses->token_error();
+                $this->responses->token_error();
             }
 
         } 
 
         public function delete($token,$json){
-            # The objects we gonna working with 
-            $_userControl = new UsersControl();
-            $_productsControl = new ProductsControl();
-            $_responses = new Responses();
+            
 
             # validate the token we are working with 
             $tokenVerify = $_userControl->validateToken($token);
@@ -131,10 +124,6 @@
         } 
 
         public function put($token,$id,$json,$edit){
-            # The objects we gonna working with 
-            $_userControl = new UsersControl();
-            $_productsControl = new ProductsControl();
-            $_responses = new Responses();
 
             # validate the token we are working with 
             $tokenVerify = $_userControl->validateToken($token);

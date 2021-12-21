@@ -9,22 +9,32 @@
         $token = $headers["authorization"];
 
         if (isset($_GET["id"])) {
-            $id = $_GET["id"];
-            if ($id == "") {
-                # Have id
-                $_inventory->get($token);
+            // transactionId
+            $criteria = "transactionId";
+            $json = $_GET["id"];
+          
+            $_inventory->get($token,$criteria,$json);
+        } else if(isset($_GET["date"])){
+            // date
+            $criteria = "date";
+            $json = $_GET["date"];
 
-            } else {
-                # Get all
-                
-                $id = $_GET["id"];
-                $_inventory->get($token,$id);
-               
-            }
-            
+            $_inventory->get($token,$criteria,$json);
+        } else if(isset($_GET["product"])){
+            $criteria = "productId";
+           $json = $_GET["product"];
+
+           $_inventory->get($token,$criteria,$json);
+        } else if(isset($_GET["costumer"])){
+            #costumerId
+            $criteria = "costumerId";
+            $json = $_GET["costumer"];
+
+            $_inventory->get($token,$criteria,$json);
         } else {
-            # Get all
-                $_inventory->get($token);
+        //    echo "No criteria";
+        
+            $_inventory->get($token);
 
         }
         

@@ -9,56 +9,89 @@
             // $this->third = "inventory";
            
         }
-        public function select($id =""){
-            if ($id =="") {
-                
-
-                return  $query = "SELECT products.productId,
-                products.productName,
-                products.price,
-                products.brandId,
-                brands.brandName,
-                products.description,
-                products.categoryId,
-                productcategories.categorieName,
-                SUM(inventory.entryAmount),
-                SUM(inventory.outAmount),
-                SUM(inventory.entryValue),
-                SUM(inventory.outValue) 
+        # exact = dont use like
+        public function select($criteria ="",$json ="",$exact=""){
+            if ($criteria =="" || $json == "") {
+                return  $query = "SELECT transactionId,
+                costumerId,
+                date,
+                userId,
+                entryAmount,
+                outAmount,
+                entryValue,
+                entryValue,
+                transactionTypeId,
+                productId
                 FROM 
-                products,
-                brands,
-                productcategories,
-                inventory 
-                WHERE products.brandId = brands.brandId AND
-                products.categoryId = productcategories.categoryId";
-
+                inventory";
             } else {
+                if ($exact == 1) {
+                    return  $query = "SELECT transactionId,
+                    costumerId,
+                    date,
+                    userId,
+                    entryAmount,
+                    outAmount,
+                    entryValue,
+                    entryValue,
+                    transactionTypeId,
+                    productId
+                    FROM 
+                    inventory
+                    WHERE $criteria LIKE '%$json%'";
+                } else {
+                    return  $query = "SELECT transactionId,
+                    costumerId,
+                    date,
+                    userId,
+                    entryAmount,
+                    outAmount,
+                    entryValue,
+                    entryValue,
+                    transactionTypeId,
+                    productId
+                    FROM 
+                    inventory
+                    WHERE $criteria = '$json'";
+                }
                 
-                return  $query = "SELECT products.productId,
-                products.productName,
-                products.price,
-                products.brandId,
-                brands.brandName,
-                products.description,
-                products.categoryId,
-                productcategories.categorieName,
-                SUM(inventory.entryAmount),
-                SUM(inventory.outAmount),
-                SUM(inventory.entryValue),
-                SUM(inventory.outValue) 
-                FROM 
-                products,
-                brands,
-                productcategories,
-                inventory 
-                WHERE products.brandId = brands.brandId AND
-                products.categoryId = productcategories.categoryId  AND
-                products.productId = inventory.productId
-                AND products.productId ='$id'";
+               
             }
             
+           
+
         }
+        // public function select($id ="",$criteria){
+        //     if ($id =="") {
+                
+
+                
+        //     } else {
+                
+        //         return  $query = "SELECT products.productId,
+        //         products.productName,
+        //         products.price,
+        //         products.brandId,
+        //         brands.brandName,
+        //         products.description,
+        //         products.categoryId,
+        //         productcategories.categorieName,
+        //         SUM(inventory.entryAmount),
+        //         SUM(inventory.outAmount),
+        //         SUM(inventory.entryValue),
+        //         SUM(inventory.outValue) 
+        //         FROM 
+        //         products,
+        //         brands,
+        //         productcategories,
+        //         inventory 
+        //         WHERE products.brandId = brands.brandId AND
+        //         products.categoryId = productcategories.categoryId  AND
+        //         products.productId = inventory.productId
+        //         AND products.productId ='$id'";
+        //     }
+            
+        // }
         public function newBuy($values){
            
             return $query = "INSERT INTO " . $this->table ."(
@@ -134,6 +167,8 @@
             return $query = "UPDATE ". $this->table ." SET $field='$json' WHERE
             productId='$id'"; 
         }
+
+        
     }
 
 

@@ -8,7 +8,7 @@ require ("sql.querys.php");
 
 class InventoryControl extends Db{
     
-    # post method handler
+    # post method handlerz
     public function buy($json){
         $_query = new ProductsQuerys();
         
@@ -22,34 +22,30 @@ class InventoryControl extends Db{
         $query = $_query->newSell($json);
         return $result = parent::nonQuery($query);
     }
-    public function get($typeOfGet,$json=""){
-        # $typeOfGet is the type of get request we gonna do
-        /**
-         * 1 - GetAll
-         * 2 - GetById
-         */
-
-         if ($typeOfGet == 1) {
-
+    
+    public function get($criteria="",$json=""){
+        if ($criteria == "" || $json == "") {
             $_query = $this->newQuery();
             $query = $_query->select();
-            $result = parent::getData($query);
+            return $result = parent::getData($query);
 
-            return $result;
+        } else{
+            if ($criteria == "date") {
+                $_query = $this->newQuery();
+                // the 1 means: is able to use WHERE LIKE
+                $query = $_query->select($criteria,$json,1);
+                return $result = parent::getData($query);
 
-         } else if ($typeOfGet == 2){
+            } else {
+                    
+                $_query = $this->newQuery();
+                $query = $_query->select($criteria,$json);
+                return $result = parent::getData($query);
 
+            }
+            
+        }
         
-            $_query = $this->newQuery();
-            $query = $_query->select($json);
-            $result = parent::getData($query);
-
-            return $result;
-
-         } else if($typeOfGet > 2 || $typeOfGet < 1){
-             return 0;
-         }
-         
     }
 
     public function delete($json){
