@@ -61,37 +61,7 @@
            
 
         }
-        // public function select($id ="",$criteria){
-        //     if ($id =="") {
-                
-
-                
-        //     } else {
-                
-        //         return  $query = "SELECT products.productId,
-        //         products.productName,
-        //         products.price,
-        //         products.brandId,
-        //         brands.brandName,
-        //         products.description,
-        //         products.categoryId,
-        //         productcategories.categorieName,
-        //         SUM(inventory.entryAmount),
-        //         SUM(inventory.outAmount),
-        //         SUM(inventory.entryValue),
-        //         SUM(inventory.outValue) 
-        //         FROM 
-        //         products,
-        //         brands,
-        //         productcategories,
-        //         inventory 
-        //         WHERE products.brandId = brands.brandId AND
-        //         products.categoryId = productcategories.categoryId  AND
-        //         products.productId = inventory.productId
-        //         AND products.productId ='$id'";
-        //     }
-            
-        // }
+    
         public function newBuy($values){
            
             return $query = "INSERT INTO " . $this->table ."(
@@ -132,7 +102,7 @@
         }
         function delete($json){
             return $query = "DELETE FROM $this->table WHERE 
-            productId='$json'";
+            transactionId='$json'";
 
         }
 

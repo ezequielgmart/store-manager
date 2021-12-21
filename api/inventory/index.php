@@ -132,7 +132,7 @@
                 # Get all
                 
                 $id = $_GET["id"];
-                $_products->delete($token,$id);
+                $_inventory->delete($token,$id);
                
             }
             

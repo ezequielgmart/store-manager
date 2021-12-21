@@ -46,7 +46,7 @@
 
                 } else {
                     # else token aint good
-                    $_responses->token_error();
+                    $this->responses->token_error();
                 }
             
             
@@ -97,57 +97,31 @@
             
 
             # validate the token we are working with 
-            $tokenVerify = $_userControl->validateToken($token);
+            $tokenVerify = $this->users->validateToken($token);
 
             if ($tokenVerify != 0) {
 
 
                 # if the token is good
-
-
-                $result = $_productsControl->delete($json);
+                $result = $this->control->delete($json);
 
                 if ($result > 0) {
-                    $_responses->delete();
+                    $this->responses->delete();
                 } else {
                     
-                  $_responses->non_delete();
+                  $this->responses->non_delete();
     
                 }
 
        
             } else {
                 # else token aint good
-                $_responses->token_error();
+                $this->responses->token_error();
             }
 
         } 
 
-        public function put($token,$id,$json,$edit){
-
-            # validate the token we are working with 
-            $tokenVerify = $_userControl->validateToken($token);
-
-            if ($tokenVerify != 0) {
-
-
-                $result = $_productsControl->edit($id,$json,$edit);
-
-                if ($result !=1) {
-                    $_responses->server_error();
-                } else {
-                    
-                    $_responses->update_ok();
-
-                }
-
-            } else {
-                # else token aint good
-                $_responses->token_error();
-            }
-            
-        }
-        
+      
     
     }
 

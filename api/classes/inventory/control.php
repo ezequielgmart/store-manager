@@ -57,62 +57,9 @@ class InventoryControl extends Db{
         return $result;
     }
 
-    public function edit($id,$json,$edit){
-        $_query = $this->newQuery();
+  
 
 
-        if($edit == 1){
-
-            $query = $_query->editName($id,$json);
-            $result = parent::nonQuery($query);
-    
-            return $result;
-
-         }else if($edit == 2){
-            $query = $_query->editBrand($id,$json);
-            $result = parent::nonQuery($query);
-    
-            return $result;
-            
-
-         }else if($edit == 3){
-            $query = $_query->editPrice($id,$json);
-            $result = parent::nonQuery($query);
-    
-            return $result;
-            
-
-         }else if($edit == 4){
-            $query = $_query->editDescription($id,$json);
-
-            $result = parent::nonQuery($query);
-    
-            return $result;
-            
-
-
-         }else if($edit == 5){
-            $query = $_query->editCategory($id,$json);
-            $result = parent::nonQuery($query);
-    
-            return $result;
-
-           
-
-         }else if($edit > 5 || $edit < 1){
-
-             echo "Wrong data. Try again";
-
-         }else{
-
-             http_response_code(402);
-             echo json_encode("Data not found. Try again");
-
-        }
-
-
-
-    }
     private function newQuery(){
         return $_query = new ProductsQuerys();
 
