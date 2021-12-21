@@ -117,6 +117,10 @@
             */
 
             // GENERIC
+            public function created(){
+                $this->code_201("1");
+
+            }
             public function get_ok($json){
                 $this->code_200($json);
             }
@@ -141,7 +145,10 @@
                 $this->code_500("The server can't process this request.");
 
             }
+            public function missing(){
+                $this->code_400("The request have missing content");
 
+            }
             # USERS 
             public function get_users_ok($json){
                 $this->code_200($json);

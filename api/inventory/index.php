@@ -1,8 +1,8 @@
 <?php
 
-    require "../classes/products/products.php";
+    require "../classes/inventory/inventory.php";
 
-    $_products = new Products();
+    $_inventory = new Inventory();
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $headers = getallheaders();
@@ -12,18 +12,19 @@
             $id = $_GET["id"];
             if ($id == "") {
                 # Have id
-                $_products->get($token);
+                $_inventory->get($token);
+
             } else {
                 # Get all
                 
                 $id = $_GET["id"];
-                $_products->get($token,$id);
+                $_inventory->get($token,$id);
                
             }
             
         } else {
             # Get all
-                $_products->get($token);
+                $_inventory->get($token);
 
         }
         
@@ -32,16 +33,79 @@
         $data =  json_decode(file_get_contents("php://input"));
         $headers = getallheaders();
         $token = $headers["authorization"];
+        if (isset($_GET["transaction"])) {
+            $transaction = $_GET["transaction"];
 
-        $json = array(
-            $data->name,
-            $data->brand,
-            $data->price,
-            $data->description,
-            $data->category,
-        );
+            if ($transaction == 1) {
+                 # only The users  are able to make buy request
+                 # BUY 
+                $json = array(
+                        $data->id,
+                        $data->amount,
+                        $data->value,
+                        $data->productId                    
+                    );
 
-        $_products->post($token,$json);
+                    array_unshift($json,date("d-m-y h:i:s"));
+
+                    array_push($json,$transaction);
+
+                    /**
+                     * $json array gonna be:
+                     * 1. Date
+                     * 2. userId
+                     * 3. entryAmount
+                     * 4. entryValue
+                     * 5. productId
+                     * 6. transactionType 
+                     */
+
+                    $_inventory->post($token,$json,1);
+
+            } else if ($transaction == 2){
+                # only The costumer  are able to make sell request
+                # SELL 
+                $json = array(
+                    $data->id,
+                    $data->amount,
+                    $data->value,
+                    $data->productId                    
+                );
+
+                array_unshift($json,date("d-m-y h:i:s"));
+
+                array_push($json,$transaction);
+
+                /**
+                 * $json array gonna be:
+                 * 1. Date
+                 * 2. costumerID
+                 * 3. outAmount
+                 * 4. outValue
+                 * 5. productId
+                 * 6. transactionType 
+                 */
+
+                $_inventory->post($token,$json,2);
+
+            } else if ($transaction > 2 || $transaction < 1){
+                echo json_encode("Invalid transaction.");
+                http_response_code(400);
+            }
+        } else {
+            # code...
+            echo json_encode("Define the type of transaction.");
+            http_response_code(400);
+        }
+        // $json = array(
+        //     $data->constumerId,
+        //     $data->brand,
+        //     $data->price,
+        //     $data->description,
+        //     $data->category,
+        // );
+
+        // $_products->post($token,$json);
                 
     } else if($_SERVER["REQUEST_METHOD"] == "DELETE") {
         $data =  json_decode(file_get_contents("php://input"));
